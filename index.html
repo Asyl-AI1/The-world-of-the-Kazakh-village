@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мир казахского аула: XVII–XVIII века</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-link.active {
+            color: #c2410c; /* text-orange-700 */
+            border-bottom-color: #c2410c; /* border-orange-700 */
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .interactive-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .tooltip {
+            position: absolute;
+            background-color: #1f2937;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+        .has-tooltip:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-amber-50 text-stone-800">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: SPA с навигацией по вкладкам (Традиции, Культура, Одежда, Социум). Такая структура выбрана для логического разделения сложной информации, позволяя пользователю фокусироваться на интересующей теме без необходимости долгой прокрутки. Интерактивные карточки, переключатели и диаграммы используются для вовлечения пользователя и упрощения восприятия материала, что идеально подходит для целей создания визуальной новеллы. Пользовательский путь — от общего обзора к детальному изучению через клики и наведения. -->
+    <!-- Visualization & Content Choices: 
+        1. Социальная иерархия: Цель - показать структуру общества. Метод - интерактивная диаграмма на HTML/CSS (Flexbox). Интеракция - при клике на роль (Аксакал, Би) появляется подробное описание. Обоснование - визуально иерархично, интуитивно понятно, лучше статического текста.
+        2. Ценности аула: Цель - выделить ключевые ценности. Метод - круговая диаграмма (Chart.js). Интеракция - всплывающие подсказки при наведении. Обоснование - привлекает внимание к фундаментальным понятиям (Единство, Уважение), делает их запоминающимися.
+        3. Национальная одежда: Цель - сравнить мужской и женский костюмы. Метод - переключаемые вкладки с карточками, дополненные **URL-адресами плейсхолдеров** для визуализации элементов. Интеракция - кнопки для смены вида. Обоснование - прямое сравнение в одном модуле, эффективно использует пространство и повышает наглядность.
+        4. Устройство юрты: Цель - объяснить структуру жилища. Метод - стилизованный HTML-макет с всплывающими подсказками. Интеракция - наведение на элементы юрты. Обоснование - интерактивное исследование делает изучение сложной структуры увлекательным. 
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-stone-900">Мир казахского аула</h1>
+            <p class="text-xl md:text-2xl text-amber-700 mt-2">XVII–XVIII века: традиции, культура и общество</p>
+        </header>
+
+        <nav class="bg-white/80 backdrop-blur-sm sticky top-0 z-10 shadow-md rounded-lg mb-8">
+            <ul class="flex justify-center flex-wrap gap-x-4 md:gap-x-8 p-4">
+                <li><button class="nav-link text-lg font-medium text-stone-600 border-b-2 border-transparent hover:text-orange-700 transition duration-300 pb-1 active" data-target="traditions">Традиции и Обычаи</button></li>
+                <li><button class="nav-link text-lg font-medium text-stone-600 border-b-2 border-transparent hover:text-orange-700 transition duration-300 pb-1" data-target="culture">Культура и Быт</button></li>
+                <li><button class="nav-link text-lg font-medium text-stone-600 border-b-2 border-transparent hover:text-orange-700 transition duration-300 pb-1" data-target="clothing">Национальная Одежда</button></li>
+                <li><button class="nav-link text-lg font-medium text-stone-600 border-b-2 border-transparent hover:text-orange-700 transition duration-300 pb-1" data-target="society">Социальное Устройство</button></li>
+            </ul>
+        </nav>
+
+        <main>
+            <!-- Section: Traditions and Customs -->
+            <section id="traditions" class="content-section active">
+                 <p class="text-lg text-center mb-8 max-w-3xl mx-auto">Традиции и обычаи были основой жизни в ауле. Они регулировали все — от рождения до смерти, от приема гостя до ведения хозяйства. В основе всех традиций лежали ценности уважения к старшим, крепких родственных уз и взаимопомощи, которые обеспечивали выживание и процветание рода.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="interactive-card bg-white p-6 rounded-lg shadow-sm transition-all duration-300">
+                        <h3 class="font-bold text-xl mb-2 text-amber-800">Гостеприимство (Қонақжайлылық)</h3>
+                        <p>Гость считался посланником Бога. Ему предоставляли лучшее место в юрте и лучшее угощение (<span class="font-semibold">қонақасы</span>). Отказать гостю в приеме было величайшим позором для всей семьи. Гость, даже незнакомый, находился под полной защитой хозяина.</p>
+                    </div>
+                    <div class="interactive-card bg-white p-6 rounded-lg shadow-sm transition-all duration-300">
+                        <h3 class="font-bold text-xl mb-2 text-amber-800">Почитание старших</h3>
+                        <p>Беспрекословное уважение к старшим было незыблемым законом. Младшие не имели права первыми начинать разговор, перебивать или сидеть, когда старшие стоят. Приветствие (<span class="font-semibold">сәлем беру</span>) было обязательным ритуалом, особенно для снох по отношению к старшим родственникам мужа.</p>
+                    </div>
+                    <div class="interactive-card bg-white p-6 rounded-lg shadow-sm transition-all duration-300">
+                        <h3 class="font-bold text-xl mb-2 text-amber-800">Родовые узы и Жеті ата</h3>
+                        <p>Каждый казах был обязан знать своих предков до седьмого колена (<span class="font-semibold">Жеті ата</span>). Это правило предотвращало близкородственные браки и укрепляло родовую память. Родственники (<span class="font-semibold">туыстар</span>) были главной опорой человека в любой ситуации.</p>
+                    </div>
+                    <div class="interactive-card bg-white p-6 rounded-lg shadow-sm transition-all duration-300">
+                        <h3 class="font-bold text-xl mb-2 text-amber-800">Взаимопомощь (Асар)</h3>
+                        <p>Если семья сталкивалась с большой работой (стройка, перекочевка, заготовка сена), созывался <span class="font-semibold">асар</span> — добровольная помощь всем аулом. Участников не нанимали, а угощали по окончании работы. Это был механизм выживания и укрепления общинных связей.</p>
+                    </div>
+                     <div class="interactive-card bg-white p-6 rounded-lg shadow-sm transition-all duration-300">
+                        <h3 class="font-bold text-xl mb-2 text-amber-800">Традиции воспитания</h3>
+                        <p>Детей с малых лет приучали к труду, уважению и ответственности. Мальчиков воспитывали как будущих защитников и хозяев, обучая верховой езде и владению оружием. Девочек — как будущих хранительниц очага, обучая ремеслам и ведению быта.</p>
+                    </div>
+                    <div class="interactive-card bg-white p-6 rounded-lg shadow-sm transition-all duration-300">
+                        <h3 class="font-bold text-xl mb-2 text-amber-800">Обычай "Жылу"</h3>
+                        <p>Если семья страдала от стихийного бедствия (джута, пожара), сородичи собирали <span class="font-semibold">жылу</span> — помощь скотом, вещами, деньгами. Это не считалось милостыней, а было обязанностью рода — помочь попавшему в беду встать на ноги. Отказаться от помощи было нельзя.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Culture and Life -->
+            <section id="culture" class="content-section">
+                 <p class="text-lg text-center mb-8 max-w-3xl mx-auto">Культура кочевников была неразрывно связана с их образом жизни. Юрта — идеальное жилище для перекочевок, устное творчество, заменявшее письменность, и музыка, отражавшая душу степи. Быт был рационален и подчинен ритму природы.</p>
+                <div class="grid lg:grid-cols-2 gap-8 items-center">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-2xl mb-4 text-center text-amber-800">Юрта — микрокосм кочевника</h3>
+                        <p class="mb-4">Юрта была не просто жилищем, а моделью мира. Ее установка и разборка занимали около часа. Каждая деталь имела свое значение и название.</p>
+                        <div class="relative w-full max-w-sm mx-auto h-64 border-2 border-dashed border-amber-300 rounded-full flex items-center justify-center p-4 bg-amber-100/50">
+                             <div class="absolute top-0 left-1/2 -translate-x-1/2 -mt-4 has-tooltip">
+                                <span class="block w-16 h-16 bg-amber-600 rounded-full border-4 border-white shadow-md cursor-pointer"></span>
+                                <div class="tooltip bottom-full mb-2"><b>Шаңырақ</b> - семейный свод, реликвия.</div>
+                            </div>
+                             <div class="absolute top-1/2 left-0 -ml-2 has-tooltip">
+                                <span class="block w-4 h-32 bg-stone-500 rounded cursor-pointer transform -rotate-45"></span>
+                                <div class="tooltip right-full mr-2"><b>Уық</b> - купольные жерди.</div>
+                            </div>
+                            <div class="absolute top-1/2 right-0 -mr-2 has-tooltip">
+                                <span class="block w-4 h-32 bg-stone-500 rounded cursor-pointer transform rotate-45"></span>
+                                <div class="tooltip left-full ml-2"><b>Уық</b> - купольные жерди.</div>
+                            </div>
+                            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 w-full max-w-xs h-24 border-t-4 border-stone-600 has-tooltip">
+                                <div class="tooltip top-full mt-2"><b>Кереге</b> - решетчатые стены.</div>
+                            </div>
+                             <div class="text-center">
+                                <p class="font-semibold">Наведите на элементы</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="interactive-card bg-white p-6 rounded-lg shadow-sm mb-4 transition-all duration-300">
+                           <h3 class="font-bold text-xl mb-2 text-amber-800">Устное творчество и музыка</h3>
+                           <p>Из-за отсутствия письменности огромное значение имело устное слово. Эпические поэмы (<span class="font-semibold">жыры</span>) о батырах исполнялись сказителями (<span class="font-semibold">жыршы</span>) под аккомпанемент домбры или кобыза. <span class="font-semibold">Айтыс</span> — поэтическое состязание акынов — был главным общественным развлечением.</p>
+                        </div>
+                        <div class="interactive-card bg-white p-6 rounded-lg shadow-sm transition-all duration-300">
+                           <h3 class="font-bold text-xl mb-2 text-amber-800">Обряды и ритуалы</h3>
+                           <p>Жизненный цикл сопровождался множеством обрядов. <span class="font-semibold">Шілдехана</span> — празднество по случаю рождения ребенка. <span class="font-semibold">Тұсау кесу</span> — разрезание пут на ногах ребенка, делающего первые шаги. Свадьба включала этапы сговора (<span class="font-semibold">құдалық</span>), уплаты калыма и встречи невесты (<span class="font-semibold">беташар</span>).</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: National Clothing -->
+            <section id="clothing" class="content-section">
+                <p class="text-lg text-center mb-8 max-w-3xl mx-auto">Одежда была приспособлена к кочевой жизни и суровому климату. Она указывала на возраст, социальный статус и регион проживания. Для ее изготовления использовали натуральные материалы: овечью шерсть, шкуры животных, войлок, а также привозные ткани — шелк и бархат.</p>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="flex justify-center mb-6 border-b">
+                        <button id="show-men" class="clothing-toggle p-4 font-semibold text-xl border-b-4 border-orange-600 text-orange-600">Мужская одежда</button>
+                        <button id="show-women" class="clothing-toggle p-4 font-semibold text-xl border-b-4 border-transparent text-stone-500">Женская одежда</button>
+                    </div>
+                    <div id="men-clothing" class="clothing-content">
+                        <div class="grid md:grid-cols-3 gap-6 text-center">
+                           <div>
+                                <div class="mb-4 flex justify-center">
+                                    <img src="https://png.klev.club/uploads/posts/2024-05/png-klev-club-7no3-p-shapan-png-9.png" alt="Изображение Шапана" class="rounded-lg shadow-md w-36 h-36 object-cover">
+                                </div>
+                                <h4 class="font-bold text-lg">Шапан</h4>
+                                <p>Длинный халат, основной элемент верхней одежды. Зимние шапаны шили на верблюжьей или овечьей шерсти. Праздничные — из бархата и шелка, расшитые золотом.</p>
+                           </div>
+                           <div>
+                                <div class="mb-4 flex justify-center">
+                                    <img src="https://upload.wikimedia.org/wikipedia/kk/b/ba/%D0%A2%D2%AF%D0%BB%D0%BA%D1%96_%D1%82%D1%8B%D0%BC%D0%B0%D2%9B.jpg" alt="Изображение Тымақа" class="rounded-lg shadow-md w-36 h-36 object-cover">
+                                </div>
+                                <h4 class="font-bold text-lg">Тымақ</h4>
+                                <p>Зимний мужской головной убор из войлока, покрытый тканью и отороченный мехом. Форма и украшения указывали на принадлежность к определенному роду.</p>
+                           </div>
+                           <div>
+                                <div class="mb-4 flex justify-center">
+                                    <img src="https://antiq.kz/wp-content/uploads/2023/03/DSC8557.jpg" alt="Изображение Белбеу" class="rounded-lg shadow-md w-36 h-36 object-cover">
+                                </div>
+                                <h4 class="font-bold text-lg">Белбеу</h4>
+                                <p>Кожаный пояс, обязательный атрибут мужчины. Украшался серебряными или костяными бляшками. К поясу крепилось оружие и другие необходимые предметы.</p>
+                           </div>
+                        </div>
+                    </div>
+                    <div id="women-clothing" class="clothing-content hidden">
+                         <div class="grid md:grid-cols-3 gap-6 text-center">
+                           <div>
+                                <div class="mb-4 flex justify-center">
+                                    <img src="https://png.klev.club/uploads/posts/2024-05/png-klev-club-f3mv-p-sukele-png-1.png" alt="Изображение Сәукеле" class="rounded-lg shadow-md w-36 h-36 object-cover">
+                                </div>
+                                <h4 class="font-bold text-lg">Сәукеле</h4>
+                                <p>Высокий конусообразный свадебный головной убор невесты. Богато украшался драгоценными камнями, жемчугом, золотыми и серебряными подвесками. Считался главной частью приданого.</p>
+                           </div>
+                           <div>
+                                <div class="mb-4 flex justify-center">
+                                    <img src="https://artandcrafts.cultural.kz/wp-content/uploads/2023/08/kimeshek-1-1024x683.jpg" alt="Изображение Кимешек" class="rounded-lg shadow-md w-36 h-36 object-cover">
+                                </div>
+                                <h4 class="font-bold text-lg">Кимешек</h4>
+                                <p>Головной убор замужней женщины, полностью закрывающий волосы, шею и плечи, с вырезом для лица. Цвет отделки указывал на возраст женщины.</p>
+                           </div>
+                           <div>
+                                <div class="mb-4 flex justify-center">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSaNFefp77QGex8NK8oePQ1RS8LmO_D48wPg&s" alt="Изображение Көйлек и Камзол" class="rounded-lg shadow-md w-36 h-36 object-cover">
+                                </div>
+                                <h4 class="font-bold text-lg">Көйлек и Камзол</h4>
+                                <p>Длинное платье-рубаха (<span class="font-semibold">көйлек</span>) и надеваемая поверх него безрукавка (<span class="font-semibold">камзол</span>). Праздничные камзолы шили из бархата и украшали вышивкой.</p>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Social Structure -->
+            <section id="society" class="content-section">
+                <p class="text-lg text-center mb-8 max-w-3xl mx-auto">Социальная структура аула была основана на родовых связях и авторитете. Это не была жесткая вертикаль власти, а скорее система сдержек и противовесов, где главную роль играли мудрость старейшин, справедливость судей и доблесть воинов. Порядок поддерживался не принуждением, а силой традиций и общественного мнения.</p>
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-2xl mb-4 text-center text-amber-800">Ключевые фигуры аула</h3>
+                        <div id="social-structure-interactive" class="space-y-4">
+                            <div class="p-4 border rounded-lg cursor-pointer hover:bg-amber-100" data-role="aksakal">
+                                <h4 class="font-semibold text-lg">Ақсақал (Старейшина)</h4>
+                                <p class="text-sm text-stone-600 hidden">"Белобородый". Глава рода или большой семьи, обладавший огромным моральным авторитетом. Его слово было решающим в бытовых спорах и на семейных советах. Аксакалы были хранителями традиций и знаний.</p>
+                            </div>
+                             <div class="p-4 border rounded-lg cursor-pointer hover:bg-amber-100" data-role="biy">
+                                <h4 class="font-semibold text-lg">Бий (Судья)</h4>
+                                <p class="text-sm text-stone-600 hidden">Знаток обычного права (<span class="font-semibold">әдет-ғұрып</span>) и степной юриспруденции. Бии разрешали споры между родами. Их решения основывались на справедливости и красноречии, и их авторитет был непререкаем. Бием не назначали, им становились благодаря уму и честности.</p>
+                            </div>
+                             <div class="p-4 border rounded-lg cursor-pointer hover:bg-amber-100" data-role="batyr">
+                                <h4 class="font-semibold text-lg">Батыр (Воин)</h4>
+                                <p class="text-sm text-stone-600 hidden">Профессиональный воин, герой, отличившийся в битвах. Батыры возглавляли военные дружины, защищали аул от врагов и угона скота. В мирное время они пользовались большим уважением, но не имели формальной власти.</p>
+                            </div>
+                             <div class="p-4 border rounded-lg cursor-pointer hover:bg-amber-100" data-role="community">
+                                <h4 class="font-semibold text-lg">Община</h4>
+                                <p class="text-sm text-stone-600 hidden">Рядовые члены аула составляли общину. Каждая семья вела свое хозяйство, но вопросы выпаса скота, перекочевок и защиты решались сообща. Единство и взаимопомощь были ключом к выживанию.</p>
+                            </div>
+                        </div>
+                         <p class="text-center mt-4 text-sm text-stone-500">Нажмите на роль, чтобы узнать больше.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center justify-center">
+                        <h3 class="font-bold text-2xl mb-4 text-center text-amber-800">Главные ценности аула</h3>
+                         <div class="chart-container w-full max-w-sm h-80 mx-auto">
+                            <canvas id="valuesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer class="text-center mt-12 pt-6 border-t border-amber-200">
+            <p class="text-stone-500">Интерактивная справка по культуре казахского аула XVII–XVIII вв.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    const targetId = link.dataset.target;
+
+                    navLinks.forEach(nav => {
+                        nav.classList.remove('active');
+                    });
+                    link.classList.add('active');
+
+                    contentSections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.add('active');
+                        } else {
+                            section.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            const clothingToggles = document.querySelectorAll('.clothing-toggle');
+            const clothingContents = document.querySelectorAll('.clothing-content');
+
+            clothingToggles.forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    const targetId = e.target.id === 'show-men' ? 'men-clothing' : 'women-clothing';
+                    
+                    clothingToggles.forEach(btn => {
+                        btn.classList.remove('text-orange-600', 'border-orange-600');
+                        btn.classList.add('text-stone-500', 'border-transparent');
+                    });
+                    e.target.classList.add('text-orange-600', 'border-orange-600');
+                    e.target.classList.remove('text-stone-500', 'border-transparent');
+
+                    clothingContents.forEach(content => {
+                        if (content.id === targetId) {
+                            content.classList.remove('hidden');
+                        } else {
+                            content.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+            
+            const socialRoles = document.querySelectorAll('#social-structure-interactive > div');
+            socialRoles.forEach(role => {
+                role.addEventListener('click', () => {
+                    const description = role.querySelector('p');
+                    const wasOpen = !description.classList.contains('hidden');
+                    
+                    document.querySelectorAll('#social-structure-interactive p').forEach(p => p.classList.add('hidden'));
+                    
+                    if (!wasOpen) {
+                       description.classList.remove('hidden');
+                    }
+                });
+            });
+
+            const ctx = document.getElementById('valuesChart').getContext('2d');
+            const valuesChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Уважение к старшим', 'Единство рода', 'Гостеприимство', 'Взаимопомощь'],
+                    datasets: [{
+                        label: 'Основные ценности',
+                        data: [25, 25, 25, 25],
+                        backgroundColor: [
+                            '#f59e0b', // amber-500
+                            '#d97706', // amber-600
+                            '#b45309', // amber-700
+                            '#92400e', // amber-800
+                        ],
+                        borderColor: '#fef3c7', // amber-100
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#44403c' // stone-700
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
